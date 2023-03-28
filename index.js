@@ -36,7 +36,7 @@ app.post("/restar", (req, res) => {
   res.json(resultado);
 });
 
-app.post("/api/dividir", (req, res) => {
+app.post("/dividir", (req, res) => {
   let resultado;
 
   try {
