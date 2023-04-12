@@ -7,20 +7,30 @@ const express = require("express");
 const app = express();
 
 app.use(express.json());
+app.use( function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', "POST"); 
+  res.header('Access-Control-Allow-Headers', "Content-Type");
+  next();
+});
 
 //Definir los entry point de la API
 //Definir la ruta (la url) en donde va a responder nuestra API
 // http://localhost:3000/ruta
 
-app.get(
+app.post(
   "/sumar",
   //Se requiere dos obejetos: uno representado la petición
   //un objeto representando la respuesta
   (req, res) => {
     //To Do:A qui va el procesamiento de la petición a esta ruta
-    console.log("Alquien se esta conectando a sumar");
+    const { numero_1, numero_2 } = req.body;
+    const resultado = numero_1 + numero_2;
+
+    res.json(resultado);
 
     res.json(req.body);
+    //devuelve lo que esta pasando
   }
 );
 
@@ -42,6 +52,20 @@ app.post("/dividir", (req, res) => {
   try {
     const { numero_1, numero_2 } = req.body;
     resultado = numero_1 / numero_2;
+  } catch (error) {
+    //Gestionar el error
+    resultado = error;
+  }
+
+  res.json(resultado);
+});
+
+app.post("/multiplicar", (req, res) => {
+  let resultado;
+
+  try {
+    const { numero_1, numero_2 } = req.body;
+    resultado = numero_1 * numero_2;
   } catch (error) {
     //Gestionar el error
     resultado = error;
